@@ -1,0 +1,5 @@
+REATE KEYSPACE books WITH REPLICATION = {'class': 'SimpleStrategy', 'replication_factor': 3} AND durable_writes = true;
+
+use books;
+
+CREATE TABLE book (id uuid, createdAt text, title text, author text, price decimal, PRIMARY KEY((id)));
