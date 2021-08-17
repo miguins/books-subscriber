@@ -1,3 +1,26 @@
 micronaut:
   application:
     name: booksSubscriber
+  server:
+    port: 8081
+
+# Health endpoint
+endpoints:
+  health:
+    enabled: true
+    details-visible: ANONYMOUS
+
+# Nats
+nats:
+  addresses:
+    - nats://localhost:4222
+
+# Scylla/Cassandra Configuration
+cassandra:
+  default:
+    basic:
+      contact-points:
+        - ${cassandra_contact_points:localhost}
+      session-keyspace: ${cassandra_session_keyspace:books}
+      load-balancing-policy:
+        local-datacenter: ${cassandra_local_datacenter:datacenter1}

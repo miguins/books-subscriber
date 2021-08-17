@@ -34,6 +34,15 @@ dependencies {
 
     runtimeOnly("com.fasterxml.jackson.module:jackson-module-kotlin")
 
+    // Nats
+    implementation("io.micronaut.nats:micronaut-nats")
+
+    // Health
+    implementation("io.micronaut:micronaut-management")
+
+    // Scylla/Cassandra
+    implementation group: 'com.datastax.cassandra', name: 'cassandra-driver-core', version: '3.10.2'
+    implementation("io.micronaut.cassandra:micronaut-cassandra")
 }
 
 
