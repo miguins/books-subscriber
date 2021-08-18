@@ -1,4 +1,4 @@
-REATE KEYSPACE books WITH REPLICATION = {'class': 'SimpleStrategy', 'replication_factor': 3} AND durable_writes = true;
+CREATE KEYSPACE books WITH REPLICATION = {'class': 'SimpleStrategy', 'replication_factor': 3} AND durable_writes = true;
 
 use books;
 

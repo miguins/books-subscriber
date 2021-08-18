@@ -12,8 +12,12 @@ class BookServiceImpl(private val bookRepository: BookRepository) : BookService 
         bookRepository.save(book)
     }
 
-    override fun update(id: String, book: Book) {
-        TODO("Not yet implemented")
+    override fun findById(id: UUID): Book? {
+        return bookRepository.findById(id)
+    }
+
+    override fun update(id: UUID,book: Book) {
+        bookRepository.update(id, book)
     }
 
     override fun delete(id: UUID) {

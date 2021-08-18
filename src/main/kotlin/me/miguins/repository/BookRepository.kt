@@ -8,6 +8,7 @@ import javax.inject.Singleton
 interface BookRepository {
 
     fun save(book: Book)
-    fun update(book: Book)
+    fun findById(id: UUID): Book?
+    fun update(id: UUID, book: Book)
     fun deleteById(id: UUID)
 }

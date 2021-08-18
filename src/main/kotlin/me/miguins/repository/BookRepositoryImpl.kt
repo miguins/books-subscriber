@@ -25,8 +25,34 @@ class BookRepositoryImpl(private val cqlSession: CqlSession) : BookRepository {
         )
     }
 
-    override fun update(book: Book) {
-        TODO("Not yet implemented")
+    override fun findById(id: UUID): Book? {
+        val selectResult = cqlSession.execute(
+            (SimpleStatement.newInstance("SELECT * FROM books.book WHERE id = ?", id))
+        )
+
+        return selectResult.map {
+            Book(
+                it.getUuid("id"),
+                it.getString("createdAt"),
+                it.getString("title"),
+                it.getString("author"),
+                it.getBigDecimal("price")
+            )
+        }.one()
+    }
+
+    override fun update(id: UUID, book: Book) {
+        cqlSession.execute(
+            SimpleStatement
+                .newInstance(
+                    "UPDATE books.book SET title = ?, author = ?, price = ? " +
+                            "WHERE id = ?",
+                    book.title,
+                    book.author,
+                    book.price,
+                    id
+                )
+        )
     }
 
     override fun deleteById(id: UUID) {
