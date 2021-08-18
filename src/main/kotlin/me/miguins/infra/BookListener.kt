@@ -17,8 +17,8 @@ class BookListener(private val bookService: BookService) {
     }
 
     @Subject("books.update")
-    fun receiveUpdateBook(@Body book: Pair<String, Book>) {
-        with(UUID.fromString(book.first)) {
+    fun receiveUpdateBook(@Body book: Pair<UUID, Book>) {
+        with(book.first) {
             bookService.findById(this)?.also {
                 bookService.update(this, book.second)
             }
@@ -26,7 +26,7 @@ class BookListener(private val bookService: BookService) {
     }
 
     @Subject("books.delete")
-    fun receiveDeleteBook(@Body id: String) {
-        println("delete $id")
+    fun receiveDeleteBook(@Body id: UUID) {
+        bookService.delete(id)
     }
 }

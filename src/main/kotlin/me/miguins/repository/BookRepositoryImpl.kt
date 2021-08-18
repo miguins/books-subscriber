@@ -56,6 +56,6 @@ class BookRepositoryImpl(private val cqlSession: CqlSession) : BookRepository {
     }
 
     override fun deleteById(id: UUID) {
-        TODO("Not yet implemented")
+        cqlSession.execute(SimpleStatement.newInstance("DELETE FROM books.book WHERE id = ?", id))
     }
 }

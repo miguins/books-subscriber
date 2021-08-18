@@ -21,6 +21,6 @@ class BookServiceImpl(private val bookRepository: BookRepository) : BookService 
     }
 
     override fun delete(id: UUID) {
-        TODO("Not yet implemented")
+        bookRepository.deleteById(id)
     }
 }
