@@ -1,37 +1,37 @@
-package me.miguins.repository
+package me.miguins.database.repository
 
 import com.datastax.oss.driver.api.core.CqlSession
 import com.datastax.oss.driver.api.core.cql.SimpleStatement
-import me.miguins.model.Book
+import me.miguins.database.entity.BookEntity
 import java.util.*
 import javax.inject.Singleton
 
 @Singleton
 class BookRepositoryImpl(private val cqlSession: CqlSession) : BookRepository {
 
-    override fun save(book: Book) {
+    override fun save(bookEntity: BookEntity) {
 
         cqlSession.execute(
             SimpleStatement
                 .newInstance(
                     "INSERT INTO books.book (id, createdAt, title, author, price)" +
                             "VALUES (?,?,?,?,?)",
-                    book.id,
-                    book.createdAt,
-                    book.title,
-                    book.author,
-                    book.price
+                    bookEntity.id,
+                    bookEntity.createdAt,
+                    bookEntity.title,
+                    bookEntity.author,
+                    bookEntity.price
                 )
         )
     }
 
-    override fun findById(id: UUID): Book? {
+    override fun findById(id: UUID): BookEntity? {
         val selectResult = cqlSession.execute(
             (SimpleStatement.newInstance("SELECT * FROM books.book WHERE id = ?", id))
         )
 
         return selectResult.map {
-            Book(
+            BookEntity(
                 it.getUuid("id"),
                 it.getString("createdAt"),
                 it.getString("title"),
@@ -41,15 +41,15 @@ class BookRepositoryImpl(private val cqlSession: CqlSession) : BookRepository {
         }.one()
     }
 
-    override fun update(id: UUID, book: Book) {
+    override fun update(id: UUID, bookEntity: BookEntity) {
         cqlSession.execute(
             SimpleStatement
                 .newInstance(
                     "UPDATE books.book SET title = ?, author = ?, price = ? " +
                             "WHERE id = ?",
-                    book.title,
-                    book.author,
-                    book.price,
+                    bookEntity.title,
+                    bookEntity.author,
+                    bookEntity.price,
                     id
                 )
         )

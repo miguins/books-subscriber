@@ -1,10 +1,10 @@
-package me.miguins.model
+package me.miguins.database.entity
 
 import java.math.BigDecimal
 import java.time.LocalDateTime
 import java.util.*
 
-data class Book(
+data class BookEntity(
     val id: UUID? = UUID.randomUUID(),
     val createdAt: String? = LocalDateTime.now().toString(),
     val title: String? = null,
