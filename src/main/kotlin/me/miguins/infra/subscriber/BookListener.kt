@@ -1,10 +1,11 @@
-package me.miguins.infra
+package me.miguins.infra.subscriber
 
 import io.micronaut.http.annotation.Body
 import io.micronaut.nats.annotation.NatsListener
 import io.micronaut.nats.annotation.Subject
-import me.miguins.core.model.Book
+import me.miguins.core.mapper.BookConverter
 import me.miguins.core.ports.BookServicePort
+import me.miguins.infra.model.BookSubscriber
 import java.util.*
 
 
@@ -12,15 +13,15 @@ import java.util.*
 class BookListener(private val bookServicePort: BookServicePort) {
 
     @Subject("books.create")
-    fun receiveNewBook(@Body book: Book) {
-        bookServicePort.create(book)
+    fun receiveNewBook(@Body bookSubscriber: BookSubscriber) {
+        bookServicePort.create(BookConverter.bookSubscriberToBook(bookSubscriber))
     }
 
     @Subject("books.update")
-    fun receiveUpdateBook(@Body book: Pair<UUID, Book>) {
+    fun receiveUpdateBook(@Body book: Pair<UUID, BookSubscriber>) {
         with(book.first) {
             bookServicePort.findById(this)?.also {
-                bookServicePort.update(this, book.second)
+                bookServicePort.update(this, BookConverter.bookSubscriberToBook(book.second))
             }
         }
     }
