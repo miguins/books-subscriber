@@ -9,7 +9,7 @@ import javax.inject.Singleton
 interface BookServicePort {
 
     fun create(book: Book)
-    fun findById(id: UUID): BookEntity?
+    fun findById(id: UUID): Book?
     fun update(id: UUID, book: Book)
     fun delete(id: UUID)
 }
